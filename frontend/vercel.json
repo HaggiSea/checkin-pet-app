@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://checkin-pet-app-bk.vercel.app/api/$1"
+      "destination": "https://checkin-pet-app.vercel.app//api/$1"
     }
   ]
 }
