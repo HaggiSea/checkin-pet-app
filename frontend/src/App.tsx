@@ -4,7 +4,7 @@ import HeatMap from 'react-calendar-heatmap'
 import 'react-calendar-heatmap/dist/styles.css'
 
 // 根据环境决定 API 地址
-const API_BASE = import.meta.env.PROD ? '' : '/api'
+// const API_BASE = import.meta.env.PROD ? '' : '/api'
 
 interface Child {
   id: string
@@ -91,7 +91,7 @@ function App() {
   const loadChildren = async () => {
     if (!userId) return
     try {
-      const response = await axios.get(`/api/children/${userId}`)
+      const response = await axios.get(`${API_BASE}/children/${userId}`)
       if (response.data.success) {
         setChildren(response.data.children || [])
         if (response.data.children.length > 0 && !selectedChild) {
@@ -105,7 +105,7 @@ function App() {
     // ========== 加载打卡记录 ==========
   const loadCheckins = async (childId: string) => {
     try {
-      const response = await axios.get(`/api/checkins/${childId}`)
+      const response = await axios.get(`${API_BASE}/checkins/${childId}`)
       if (response.data.success) {
         setCheckins(response.data.checkins || [])
       }
@@ -118,7 +118,7 @@ function App() {
   const loadTasks = async () => {
     if (!userId) return
     try {
-      const response = await axios.get(`/api/tasks/${userId}`)
+      const response = await axios.get(`${API_BASE}/tasks/${userId}`)
       if (response.data.success) {
         setTasks(response.data.tasks || [])
       }
@@ -136,7 +136,7 @@ function App() {
     }
 
     try {
-      const response = await axios.post('/api/children', {
+      const response = await axios.post('${API_BASE}/children', {
         parentId: userId,
         name: newChildName.trim(),
         petType: newChildPet
@@ -160,7 +160,7 @@ function App() {
     }
 
     try {
-      const response = await axios.post('/api/checkin', {
+      const response = await axios.post('${API_BASE}/checkin', {
         childId: selectedChild.id,
         taskId: taskId
       })
@@ -192,7 +192,7 @@ function App() {
     if (!confirm('确定要撤回这条打卡记录吗？')) return
 
     try {
-      const response = await axios.delete(`/api/checkin/${checkinId}`)
+      const response = await axios.delete(`${API_BASE}/checkin/${checkinId}`)
       if (response.data.success) {
         const data = response.data.data
         setMessage(`↩️ 撤回成功！扣回 ${data.pointsDeducted} 分`)
@@ -221,7 +221,7 @@ function App() {
   const loadRewards = async (childId: string) => {
     if (!userId) return
     try {
-      const response = await axios.get(`/api/rewards/${userId}?childId=${childId}`)
+      const response = await axios.get(`${API_BASE}/rewards/${userId}?childId=${childId}`)
       if (response.data.success) {
         setRewards(response.data.rewards || [])
       }
@@ -236,7 +236,7 @@ function App() {
     if (!confirm(`确定要花费 ${cost} 积分兑换此奖励吗？`)) return
 
     try {
-      const response = await axios.post('/api/redeem', {
+      const response = await axios.post('${API_BASE}/redeem', {
         childId: selectedChild.id,
         rewardId: rewardId
       })
@@ -270,7 +270,7 @@ function App() {
     }
 
     try {
-      const response = await axios.post('/api/rewards', {
+      const response = await axios.post('${API_BASE}/rewards', {
         parentId: userId,
         childId: selectedChild?.id || null,
         name: newRewardName.trim(),
@@ -294,7 +294,7 @@ function App() {
   const loadRedemptions = async () => {
     if (!userId) return
     try {
-      const response = await axios.get(`/api/redemptions/${userId}`)
+      const response = await axios.get(`${API_BASE}/redemptions/${userId}`)
       if (response.data.success) {
         setRedemptions(response.data.redemptions || [])
       }
@@ -307,7 +307,7 @@ function App() {
   const handleApproveRedemption = async (redemptionId: string) => {
     if (!confirm('确认批准此兑换？')) return
     try {
-      const response = await axios.put(`/api/redemption/${redemptionId}`, { status: 'approved' })
+      const response = await axios.put(`${API_BASE}/redemption/${redemptionId}`, { status: 'approved' })
       if (response.data.success) {
         setMessage(`✅ ${response.data.message}`)
         await loadRedemptions()
@@ -320,7 +320,7 @@ function App() {
   const handleRejectRedemption = async (redemptionId: string) => {
     if (!confirm('确认拒绝此兑换？积分将返还给孩子。')) return
     try {
-      const response = await axios.put(`/api/redemption/${redemptionId}`, { status: 'rejected' })
+      const response = await axios.put(`${API_BASE}/redemption/${redemptionId}`, { status: 'rejected' })
       if (response.data.success) {
         setMessage(`✅ ${response.data.message}`)
         await loadRedemptions()
@@ -339,7 +339,7 @@ function App() {
   // ========== 加载热力图数据 ==========
   const loadStats = async (childId: string) => {
     try {
-      const response = await axios.get(`/api/checkins/${childId}/stats`)
+      const response = await axios.get(`${API_BASE}/checkins/${childId}/stats`)
       if (response.data.success) {
         setHeatmapData(response.data.stats || [])
       }
