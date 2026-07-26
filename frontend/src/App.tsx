@@ -38,7 +38,14 @@ async function hashPassword(password: string, salt: string): Promise<string> {
 }
 
 function generateSalt(): string {
-  return crypto.randomBytes ? crypto.randomBytes(16).toString('base64') : Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b => String.fromCharCode(b)).join('')
+  const array = new Uint8Array(16)
+  crypto.getRandomValues(array)
+  // 将 Uint8Array 转为二进制字符串，然后 base64 编码
+  let binary = ''
+  for (let i = 0; i < array.length; i++) {
+    binary += String.fromCharCode(array[i])
+  }
+  return btoa(binary)
 }
 
 // ========== 类型定义 ==========
