@@ -1,8 +1,10 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://checkin-pet-app.vercel.app//api/$1"
+      "destination": "https://checkin-pet-app.vercel.app/api/$1"
     }
   ]
 }

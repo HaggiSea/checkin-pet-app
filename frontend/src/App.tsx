@@ -110,6 +110,9 @@ function App() {
 
   // ========== 注册 ==========
   const handleRegister = async (e: React.FormEvent) => {
+    console.log('登录/注册函数被触发了')
+    console.log('SUPABASE_URL:', supabaseUrl)
+    console.log('SUPABASE_ANON_KEY:', supabaseAnonKey)
     e.preventDefault()
     setMessage('')
     if (!username || !password) {
@@ -169,6 +172,10 @@ function App() {
 
   // ========== 登录 ==========
   const handleLogin = async (e: React.FormEvent) => {
+    console.log('登录/注册函数被触发了')
+    console.log('SUPABASE_URL:', supabaseUrl)
+    console.log('SUPABASE_ANON_KEY:', supabaseAnonKey)
+    
     e.preventDefault()
     setMessage('')
     if (!username || !password) {
